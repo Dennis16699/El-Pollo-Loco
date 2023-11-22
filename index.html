@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Pollo Loco</title>
+    <link rel="icon" type="image/x-icon" href="img/3_enemies_chicken/chicken_normal/1_walk/1_w.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="models/drawable-object.class.js"></script>
+    <script src="models/movabel-object.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/chicken-small.class.js"></script>
+    <script src="models/cloud.class.js"></script>
+    <script src="models/statusbar-bottles.class.js"></script>
+    <script src="models/statusbar-coins.class.js"></script>
+    <script src="models/statusbar-endboss.class.js"></script>
+    <script src="models/statusbar-endbossLogo.class.js"></script>
+    <script src="models/statusbar.class.js"></script>
+    <script src="models/coins.class.js"></script>
+    <script src="models/bottle.class.js"></script>
+    <script src="models/background-object.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
+    <script src="models/level.class.js"></script>
+    <script src="models/throwable-object.class.js"></script>
+    <script src="models/endboss.class.js"></script>
+    <script src="Levels/level1.js"></script>
+    <script src="models/character.class.js"></script>
+    <script src="models/world.class.js"></script>
+    <script src="js/game.js"></script>
+</head>
+<body onload="bindBtsPressEvents(), showToolTip()">
+    <audio id="gameSoundtrack" src="audio/Audio1.mp3"></audio>
+
+    <div id="gameContainer" class="gameContainer" width="760" height="480">
+        <div id="startScreen" class="startScreen">
+            <div class="toolTip" id="toolTip">
+                <div class="circle">
+                </div>
+                <div class="arrow">
+                    <img src="img/10_icons/icons8-hoch-2-50.png">
+                </div>
+                <div class="toolTipText">
+                    Klick here to show the controls!
+                </div>
+            </div>
+            <div class="upperScreen">
+                <div class="icons">
+                    <img id="fullScreen" src="img/10_icons/fullscreen.png" alt="fullscreen" onclick="fullScreen()">
+                    <img id="sound" src="img/10_icons/mute.svg" onclick="mute()">
+                    <img src="img/10_icons/info.png" onclick="showControls()" id="controlsIcon">
+                </div>
+                <div id="startGameContainer" class="startGameContainer" onclick="startGame()">
+                    <div id="startGame" class="startGame">
+                        <div>Start Game</div>
+                    </div>
+
+                    <div id="loader-wrapper" class="loader-wrapper">
+                        <div class="loader loader-outer">
+                            <div class="loader loader-inner">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="lowerScreen" >
+                <div class="lowerScreenLeftSide">
+                    <div id="walkLeft" style="background-color: #FF9900;">
+                        <img class="moveLeft" src="img/10_icons/icons8-links-eingekreist-50.png" >
+                    </div>
+                    <div id="walkRight" style="background-color: #FF9900;">
+                        <img class="moveRight" src="img/10_icons/icons8-rechts-eingekreist-50.png">
+                    </div>
+                </div>
+                <div class="lowerScreenRightSide">
+                    <div id="jump" style="background-color: #FF9900;">
+                        <img src="img/10_icons/icons8-oben-eingekreist-50.png">
+                    </div>
+                    <div id="throwBottle" style="background-color: #FF9900;" >
+                        <img src="img/6_salsa_bottle/2_salsa_bottle_on_ground.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="controls" class="controls">
+            <div>
+                <img src="img/10_icons/icons8-eingekreistes-x-50.png" onclick="closeControls()">
+            </div>
+            <div class="icon">
+                <div>
+                    <img src="img/10_icons/icons8-links-eingekreist-50.png" alt="">                    
+                    <div>/</div>
+                    <img src="img/10_icons/icons8-eingekreist-a-50.png" alt="">
+                </div>
+                <div>
+                    <p>Move left</p>
+                </div>
+            </div>
+            <div class="icon">
+                <div>
+                    <img src="img/10_icons/icons8-rechts-eingekreist-50.png" >                    
+                    <div>/</div>
+                    <img src="img/10_icons/icons8-eingekreist-50 (1).png" alt="">
+                </div>
+                <div>
+                    <p>Move right</p>
+                </div>
+            </div>
+            <div class="icon">
+                <div>
+                    <img src="img/10_icons/icons8-oben-eingekreist-50.png" alt="">                    
+                    <div>/</div>
+                    <img src="img/10_icons/icons8-eingekreist-50.png" alt="">
+                </div>
+                <div>
+                    <p>Jump</p>
+                </div>
+            </div>
+            <div class="icon">
+                <div>
+                    <img src="img/10_icons/icons8-leertaste-50.png" alt="">                    
+                    <div>/</div>
+                    <img src="img/10_icons/icons8-eingekreist-e-50.png" alt="">
+                </div>
+                <div>
+                    <p>Trow bottle</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameOverScreen" class="gameOverScreen">
+            <div class="gameOverScreenBtns" onclick="restartGame('gameOverScreen')">
+                <div>Restart Game</div>
+            </div>
+            <div class="gameOverScreenBtns" onclick="toMainMenue('gameOverScreen')">
+                <div>Main menue</div>
+            </div>
+        </div>
+
+        <div id="gameWonScreen" class="gameWonScreen">
+            <div class="gameOverScreenBtns" onclick="restartGame('gameWonScreen')">
+                <div>Restart Game</div>
+            </div>
+            <div class="gameOverScreenBtns" onclick="toMainMenue('gameWonScreen')">
+                <div>Main menue</div>
+            </div>
+        </div>
+
+        <canvas id="canvas" width="720px" height="480px" id="canvas">
+        </canvas>
+
+        <div class="turnDeviceScreen">
+            <div class="turnDeviceText">
+                <div>
+                    <img src="img/10_icons/rotate-smartphone.png" alt="">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
