@@ -4,6 +4,7 @@ class Coins extends MovableObject {
     height = 120;
     width = 120;
 
+    // Array of image paths for coin animation
     imagesCoin = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png'
@@ -16,7 +17,9 @@ class Coins extends MovableObject {
         bottom: 50
     }
 
-    
+    /**
+     * Constructs a new Coins instance, loads coin images, and sets up its initial position and animation.
+     */
     constructor() {
         super().loadImage('img/8_coin/coin_1.png');
         this.loadImages(this.imagesCoin);
@@ -25,6 +28,9 @@ class Coins extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Handles the animation of the coin, cycling through its images.
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.imagesCoin);

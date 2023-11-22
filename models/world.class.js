@@ -25,7 +25,12 @@ class World {
     audioVolume = false;
     proximity = false;
 
-
+    /**
+    * Constructs a new World instance, setting up the game canvas, keyboard input, and audio control.
+    * @param {HTMLCanvasElement} canvas - The game canvas element.
+    * @param {Keyboard} keyboard - The keyboard input handler.
+    * @param {boolean} audioVolume - Initial state of audio volume (on/off).
+    */
     constructor(canvas, keyboard, audioVolume) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -36,11 +41,16 @@ class World {
         this.run();
     };
 
+    /**
+    * Sets up the world context for the main character.
+    */
     setWorld() {
         this.character.world = this;
     }
 
-
+    /**
+    * Starts the game loop, setting up intervals for collision checking, object interactions, and other periodic tasks.
+    */
     run() {
         setInterval(() => {
             this.checkCollisionsEnemy();
@@ -63,7 +73,10 @@ class World {
         setInterval(() => { this.checkThrowObject(); }, 80);
     }
 
-
+    /**
+    * Checks for collisions between the player character and enemy characters.
+    * Updates health and coin counts based on collisions.
+    */
     checkCollisionsEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (enemy.speed > 0 && this.character.isColliding(enemy) && !this.character.isAboveGround()) {
@@ -81,7 +94,10 @@ class World {
         });
     }
 
-
+    /**
+    * Checks for collisions when the player character lands on top of enemies.
+    * Stops the enemy's movement if the player character lands from above.
+    */
     checkCollisionsEnemyTop() {
         this.level.enemies.forEach((enemy) => {
             if (enemy.speed > 0 && this.character.isColliding(enemy)) {
@@ -92,7 +108,10 @@ class World {
         });
     }
 
-
+    /**
+    * Checks for collisions between the player character and the endboss.
+    * Updates health, handles pushback effect, and adjusts coin count based on collisions.
+    */
     checkCollisionsEndboss() {
         this.level.endboss.forEach((endboss) => {
             if (this.character.isColliding(endboss)) {
@@ -111,7 +130,10 @@ class World {
         });
     }
 
-
+    /**
+    * Checks for collisions between thrown bottles and enemy objects.
+    * Stops the enemy's movement upon collision and sets the bottle hit flag.
+    */
     checkBottleHitEnemy() {
         this.throwableObject.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
@@ -123,7 +145,11 @@ class World {
         })
     };
 
-
+    /**
+    * Checks for collisions between thrown bottles and the endboss.
+    * Triggers damage to the endboss and updates its health status bar.
+    * Sets the bottle hit flag upon collision.
+    */
     checkBottleHitEndboss() {
         this.throwableObject.forEach((bottle) => {
             this.level.endboss.forEach((endboss) => {
@@ -136,7 +162,10 @@ class World {
         })
     };
 
-
+    /**
+    * Checks for collisions between the character and coin objects.
+    * Updates the character's collected coins count and plays a sound effect upon collecting.
+    */
     checkCollisionsCoins() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
@@ -151,7 +180,10 @@ class World {
         });
     }
 
-
+    /**
+    * Checks for collisions between the character and bottle objects.
+    * Updates the character's collected bottles count and plays a sound effect upon collecting.
+    */
     checkCollisionsBottles() {
         this.level.bottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
@@ -166,7 +198,10 @@ class World {
         });
     }
 
-
+    /**
+    * Checks if the character is near the endboss based on their positions.
+    * Activates certain game mechanics when near the endboss.
+    */
     checkNearEndboss() {
         this.level.endboss.forEach((endboss) => {
             if (this.character.x > 3850) {
@@ -175,7 +210,10 @@ class World {
         });
     }
 
-
+    /**
+    * Manages the action of throwing objects based on keyboard input and character's inventory.
+    * Determines the direction of the throw and updates the inventory count.
+    */
     checkThrowObject() {
         if (this.keyboard.throw) {
             if (this.character.bottlesColected > 0) {
@@ -193,7 +231,10 @@ class World {
         }
     }
 
-
+    /**
+    * Handles the logic for throwing a bottle in a specific direction.
+    * Adjusts the position and trajectory of the thrown bottle.
+    */
     throwBottleOtherDirection() {
         this.throwObject = false;
         let bottle = new ThrowableObject(this.character.x - 60, this.character.y + 100, this.otherDirection = true);
@@ -204,8 +245,11 @@ class World {
             this.throwObject = true;
         }, 400);
     }
-
-
+   
+    /**
+    * Handles the logic for throwing a bottle in a specific direction.
+    * Adjusts the position and trajectory of the thrown bottle.
+    */
     throwBottleCorrectDirection() {
         this.throwObject = false;
         let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100, this.otherDirection = false);
@@ -217,7 +261,10 @@ class World {
         }, 400);
     }
 
-
+    /**
+    * Updates the audio volume setting for enemies, the endboss, and throwable objects.
+    * Toggles audio on or off based on the game's audio volume setting.
+    */
     checkAudioEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.audioVolume == true) {
@@ -250,25 +297,30 @@ class World {
         });
     }
 
- 
+    /**
+    * Main drawing function for the game world.
+    * Clears the canvas and redraws all game objects in their current states.
+    */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.cameraX, 0);
         this.addBackgroundObjects();
-        this.ctx.translate(-this.cameraX, 0); 
- 
+        this.ctx.translate(-this.cameraX, 0);
+
         this.addStatusbars();
-   
-        this.ctx.translate(this.cameraX, 0); 
+
+        this.ctx.translate(this.cameraX, 0);
         this.addMovableObjects();
         this.ctx.translate(-this.cameraX, 0);
-        let self = this;                    
-        requestAnimationFrame(function () {  
+        let self = this;
+        requestAnimationFrame(function () {
             self.draw();
         });
     };
 
-   
+    /**
+    * Adds background objects like clouds and collectibles to the canvas for rendering.
+    */
     addBackgroundObjects() {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
@@ -276,7 +328,10 @@ class World {
         this.addObjectsToMap(this.level.bottles);
     }
 
-
+    /**
+    * Adds status bars (health, coins, bottles) to the canvas for rendering.
+    * Includes the endboss health status bar if the character is in proximity to the endboss.
+    */
     addStatusbars() {
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarCoins);
@@ -287,8 +342,10 @@ class World {
         }
     }
 
+    /**
+    * Checks the proximity of the character to the endboss and updates the game state accordingly.
+    */
     checkProximity() {
-
         this.level.endboss.forEach((endboss) => {
             if (this.character.isNearEndboss(endboss)) {
                 this.proximity = true;
@@ -298,8 +355,9 @@ class World {
         });
     }
 
-
-
+    /**
+    * Adds movable objects like the character, enemies, and endboss to the canvas for rendering.
+    */
     addMovableObjects() {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
@@ -307,14 +365,21 @@ class World {
         this.addObjectsToMap(this.throwableObject);
     }
 
-
+    /**
+    * Helper function to add a collection of objects to the canvas for rendering.
+    * @param {MovableObject[]} objects - Array of movable objects to be added.
+    */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         });
     }
 
- 
+    /**
+    * Adds a single movable object to the canvas for rendering.
+    * Flips the image if the object is facing the other direction.
+    * @param {MovableObject} mo - The movable object to be added.
+    */
     addToMap(mo) {
         if (mo.otherDirection) {
             mo.flipImage(this.ctx);

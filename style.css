@@ -192,8 +192,8 @@ canvas {
 }
 
 .loader-wrapper .loader-outer {
-    border-top-color: orange;
-    border-bottom-color: orange;
+    border-top-color: rgb(176, 173, 167);
+    border-bottom-color: rgb(176, 173, 167);
 }
 
 .loader-wrapper .loader-inner {

@@ -8,6 +8,7 @@ class ThrowableObject extends MovableObject {
     checkForHitInterval;
     throwInterval;
 
+    // Arrays of image paths for different animations
     IMAGES_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -31,6 +32,12 @@ class ThrowableObject extends MovableObject {
         bottom: 10
     };
 
+    /**
+     * Constructs a new ThrowableObject instance, loads images for various states, and initializes its position, size, and throwing direction.
+     * @param {number} x - The horizontal position where the object is thrown from.
+     * @param {number} y - The vertical position where the object is thrown from.
+     * @param {boolean} direction - The direction in which the object is thrown.
+     */
     constructor(x, y, direction) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_ROTATION);
@@ -47,6 +54,9 @@ class ThrowableObject extends MovableObject {
         this.stopInterval();
     }
 
+    /**
+     * Handles the animation and mechanics of the throwable object.
+     */
     animate() {
         this.bottleBurst.pause();
         this.throw();
@@ -71,7 +81,9 @@ class ThrowableObject extends MovableObject {
         }, 80);
     }
 
-
+    /**
+     * Initiates the throwing action applying gravity and forward momentum.
+     */
     throw() {
         this.applyGravity();
 
@@ -81,6 +93,9 @@ class ThrowableObject extends MovableObject {
         }, 40);
     }   
 
+    /**
+     * Adjusts the horizontal position based on the throwing direction.
+     */
     throwAcceleration() {
             if(this.otherDirection == true) {
                 this.x -= 12;
@@ -89,6 +104,9 @@ class ThrowableObject extends MovableObject {
             }
     }
 
+    /**
+     * Stops the animation and mechanics intervals when certain conditions are met.
+     */
     stopInterval() {
         setInterval(() => {
             if(this.bottleHit == true || this.y > 345) {

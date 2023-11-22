@@ -1,5 +1,9 @@
 class StatusbarHealthEndboss extends DrawableObject {
 
+    /**
+     * Array of image paths for different states of the endboss's health status bar.
+     * @type {string[]}
+     */
     images = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/orange/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/orange/20.png',
@@ -11,7 +15,9 @@ class StatusbarHealthEndboss extends DrawableObject {
 
     percentage = 100;
 
-  
+    /**
+     * Constructs a new StatusbarHealthEndboss instance, loads the health bar images, and initializes its position and size.
+     */
     constructor() {
         super().loadImage('img/7_statusbars/1_statusbar/2_statusbar_health/orange/0.png');
         this.loadImages(this.images);       

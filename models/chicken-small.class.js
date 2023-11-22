@@ -5,6 +5,7 @@ class ChickenSmall extends MovableObject {
     chickenDieSound = new Audio('audio/Chicken.mp3');
     animationInterval;
 
+    // Arrays of image paths for walking and dead animations
     imagesWalking = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
@@ -22,6 +23,9 @@ class ChickenSmall extends MovableObject {
         bottom: 0
     };
 
+    /**
+     * Constructs a new ChickenSmall instance, loads images for various states, and sets up movement and animation.
+     */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.imagesWalking);
@@ -33,6 +37,9 @@ class ChickenSmall extends MovableObject {
         this.checkDeadChicken();    
     }
 
+    /**
+     * Handles the animation loop for the small chicken.
+     */
     animate() {
         this.animationInterval = 
         setInterval(() => {
@@ -40,6 +47,9 @@ class ChickenSmall extends MovableObject {
         }, 100);
     }
 
+    /**
+     * Manages animations based on the chicken's state (walking or dead).
+     */
     animations() {
         if(this.speed == 0) {
             this.playAnimation(this.imagesDead);
@@ -56,6 +66,9 @@ class ChickenSmall extends MovableObject {
         }
     }
 
+    /**
+     * Checks if the chicken is dead and clears the animation interval if so.
+     */
     checkDeadChicken() {
         setInterval(() => {
             if(this.speed == 0) {

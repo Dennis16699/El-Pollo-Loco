@@ -6,7 +6,8 @@ class Endboss extends MovableObject {
     nearEndboss = false;
     attackRangeEndboss = false;
     dieEndbossSound = new Audio('audio/EndbossCicken.mp3');
-    
+
+    // Arrays of image paths for different Endboss animations
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -48,15 +49,18 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    offset =  {
+    offset = {
         top: 30,
         left: 20,
-        right: 0, 
+        right: 0,
         bottom: 20
     }
 
     firstContact = false;
 
+    /**
+     * Constructs a new Endboss instance, loads images for various states, and sets up movement and animation.
+     */
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -67,9 +71,12 @@ class Endboss extends MovableObject {
         this.x = 6050;
         this.speed = 25;
         this.animate();
-        this.stopInterval();  
+        this.stopInterval();
     }
 
+    /**
+     * Handles the animation loop for the Endboss.
+     */
     animate() {
         this.animateEndboss =
             setInterval(() => {
@@ -77,12 +84,15 @@ class Endboss extends MovableObject {
             }, 500);
     }
 
+    /**
+     * Manages animations based on the Endboss's state (walking, alert, attacking, hurt, or dead).
+     */
     animations() {
-        if(this.isDeadEndboss()) {
+        if (this.isDeadEndboss()) {
             this.endbossDeadActions();
-        } else if(this.isHurtEndboss()) {
+        } else if (this.isHurtEndboss()) {
             this.playAnimation(this.IMAGES_HURT);
-        } else if(this.nearEndboss && !this.isHurtEndboss()) {
+        } else if (this.nearEndboss && !this.isHurtEndboss()) {
             this.moveLeft();
             this.playAnimation(this.IMAGES_ATTACK);
         } else {
@@ -90,9 +100,12 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Executes actions when the Endboss is dead.
+     */
     endbossDeadActions() {
-        if(this.audioVolume == true){
-            this.dieEndbossSound.play();            
+        if (this.audioVolume == true) {
+            this.dieEndbossSound.play();
         }
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
@@ -101,14 +114,21 @@ class Endboss extends MovableObject {
         }, 1200);
     }
 
-       stopInterval() {
+    /**
+     * Stops the animation intervals when the Endboss is dead.
+     */
+    stopInterval() {
         setInterval(() => {
-            if(this.isDeadEndboss()) {
+            if (this.isDeadEndboss()) {
                 clearInterval(this.animateEndboss);
             }
         }, 500);
     }
 
+    /**
+     * Checks if the Endboss is dead.
+     * @returns {boolean} True if the Endboss is dead, false otherwise.
+     */
     isDeadEndboss() {
         return this.energyEndboss == 0;
     }

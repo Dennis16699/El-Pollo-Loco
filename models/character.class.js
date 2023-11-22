@@ -17,6 +17,7 @@ class Character extends MovableObject {
         bottom: 10
     };
 
+    // Arrays of image paths for different character animations
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -80,6 +81,9 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
+    /**
+     * Constructs a new Character instance, loads images for various states, and sets up gravity and animation.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_IDLE);
@@ -93,6 +97,9 @@ class Character extends MovableObject {
         this.stopInterval(); 
     }
 
+    /**
+     * Handles the animation loop for the character.
+     */
     animate() {
         this.movemetActions = setInterval(() => {this.movement()}, 40);
         this.idleActions = setInterval(() => {this.checkForAction()}, 1000);
@@ -113,6 +120,9 @@ class Character extends MovableObject {
         }, 80);
     }
 
+    /**
+     * Executes actions when the character is dead.
+     */
     characterDeadActions() {
         if(this.world.audioVolume == true){
             this.deathSound.play();
@@ -125,6 +135,9 @@ class Character extends MovableObject {
         }, 1000);
     }
 
+    /**
+     * Executes actions when the character is hurt.
+     */
     characterHurtActions() {
         if(this.world.audioVolume == true){
             this.hurtSound.play();
@@ -132,6 +145,9 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_HURT);
     }
 
+    /**
+     * Stops the animation intervals when the character is dead.
+     */
     stopInterval() {
         setInterval(() => {
             if(this.isDead()) {
@@ -140,6 +156,9 @@ class Character extends MovableObject {
         }, 80);
     }
 
+    /**
+     * Handles character movement based on keyboard inputs.
+     */
     movement() {
         if(this.world.keyboard.right && this.x < this.world.level.levelEndX) {
             this.characterMoveRight();
@@ -153,6 +172,9 @@ class Character extends MovableObject {
         this.world.cameraX = -this.x + 100;
     }
 
+    /**
+     * Moves the character to the right.
+     */
     characterMoveRight() {
         this.moveRight();
         this.otherDirection = false;
@@ -161,6 +183,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Moves the character to the left.
+     */
     characterMoveLeft() {
         this.moveLeft();
         this.otherDirection = true;
@@ -169,6 +194,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Checks the last key press to determine if the character should perform idle or long idle actions.
+     */
     checkForAction() {
         let currentTime = new Date().getTime();
         if((currentTime - this.world.keyboard.lastKeyPress) > 100 && (currentTime - this.world.keyboard.lastKeyPress) < 3000) {

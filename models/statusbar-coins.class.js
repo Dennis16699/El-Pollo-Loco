@@ -1,5 +1,9 @@
 class StatusbarCoins extends DrawableObject {
 
+    /**
+     * Array of image paths for different states of the coin status bar.
+     * @type {string[]}
+     */
     images = [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png',
@@ -12,6 +16,9 @@ class StatusbarCoins extends DrawableObject {
     percentage = 0;
 
  
+    /**
+     * Constructs a new StatusbarCoins instance, loads the status bar images, and initializes its position and size.
+     */
     constructor() {
         super();
         this.loadImages(this.images);

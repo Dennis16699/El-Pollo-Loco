@@ -8,6 +8,9 @@ let loading = false;
 let audioVolume = false;
 
 
+/**
+ * Shows a tooltip with a delay and hides it after a certain time.
+ */
 function showToolTip() {
     setTimeout(() => {
         let toolTip = document.getElementById('toolTip');
@@ -16,7 +19,9 @@ function showToolTip() {
     }, 2000);
 }
 
-
+/**
+ * Starts the game by initializing components and hiding the start screen.
+ */
 async function startGame() {
     document.getElementById('loader-wrapper').style.display = 'flex';
     document.getElementById('startGame').style.display = 'none';
@@ -33,20 +38,26 @@ async function startGame() {
     }
 }
 
-
+/**
+ * Initializes the game by setting up levels and elements.
+ */
 async function init() {
     await levels();
     await setElements();
 }
 
-
+/**
+ * Sets up essential elements for the game, such as the canvas and the world.
+ */
 async function setElements() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard, audioVolume);
     keyboard.lastKeyPress = new Date().getTime();
 }
 
-
+/**
+ * Toggles the mute state of the game's soundtrack.
+ */
 async function mute() {
     try {
         let isPlaying = !document.getElementById("gameSoundtrack").paused;
@@ -57,11 +68,20 @@ async function mute() {
     }
 }
 
+/**
+ * Toggles the icon of the sound button based on the playing state.
+ * @param {boolean} isPlaying - Indicates if the soundtrack is currently playing.
+ */
 function toggleIcon(isPlaying) {
     let soundIcon = document.getElementById('sound');
     soundIcon.src = isPlaying ? 'img/10_icons/mute.svg' : 'img/10_icons/volume.svg';
 }
 
+/**
+ * Toggles the state of the game soundtrack between playing and paused.
+ * @param {boolean} isPlaying - Indicates if the soundtrack is currently playing.
+ * @returns {boolean} The new state of the soundtrack.
+ */
 function toggleSoundtrack(isPlaying) {
     let gameSoundtrack = document.getElementById("gameSoundtrack");
     if (isPlaying) {
@@ -72,7 +92,9 @@ function toggleSoundtrack(isPlaying) {
     return !isPlaying;
 }
 
-
+/**
+ * Toggles between full screen and normal screen mode for the game.
+ */
 function fullScreen() {
     let gameContainer = document.getElementById('gameContainer');
     let canvas = document.getElementById('canvas');
@@ -90,7 +112,10 @@ function fullScreen() {
     }
 }
 
-
+/**
+ * Enters full screen mode for the specified game container.
+ * @param {HTMLElement} gameContainer - The container element to display in full screen.
+ */
 function enterFullscreen(gameContainer) {
     if(document.requestFullscreen) {
         gameContainer.requestFullscreen();
@@ -101,7 +126,9 @@ function enterFullscreen(gameContainer) {
     }
 }
 
-
+/**
+ * Exits full screen mode.
+ */
 function exitFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -110,17 +137,23 @@ function exitFullscreen() {
     }
 }
 
-
+/**
+ * Displays the game controls.
+ */
 function showControls() {
     document.getElementById('controls').style.display = "flex";
 }
 
-
+/**
+ * Hides the game controls.
+ */
 function closeControls() {
     document.getElementById('controls').style.display = "none";
 }
 
-
+/**
+ * Event listener for keydown events to handle keyboard controls.
+ */
 window.addEventListener('keydown', (event) => {
     if(event.keyCode == 37 || event.keyCode == 65) {
         keyboard.left = true;
@@ -143,7 +176,9 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
-
+/**
+ * Event listener for keydown events to handle keyboard controls.
+ */
 window.addEventListener('keyup', (event) => {
     if(event.keyCode == 37 || event.keyCode == 65) {
         keyboard.left = false;
@@ -171,7 +206,9 @@ window.addEventListener('keyup', (event) => {
     }
 });
 
-
+/**
+ * Binds touch events to control buttons for mobile devices.
+ */
 function bindBtsPressEvents() {
     let walkLeft = document.getElementById('walkLeft');
     let walkRight = document.getElementById('walkRight');
@@ -223,14 +260,20 @@ function bindBtsPressEvents() {
     });
 }
 
-
+/**
+ * Restarts the game and hides the specified element.
+ * @param {string} id - The ID of the element to hide.
+ */
 function restartGame(id) {
     world.ctx.clearRect(0, 0, canvas.width, canvas.height);
     init();
     document.getElementById(id).style.display = "none";
 }
 
-
+/**
+ * Navigates back to the main menu and hides the specified element.
+ * @param {string} id - The ID of the element to hide.
+ */
 function toMainMenue(id) {
     world.ctx.clearRect(0, 0, canvas.width, canvas.height);
     document.getElementById('startScreen').style.backgroundImage = "url('img/9_intro_outro_screens/start/startscreen_1.png')";
@@ -239,7 +282,9 @@ function toMainMenue(id) {
     document.getElementById(id).style.display = "none";
 }
 
-
+/**
+ * Stops the game, clears all intervals, and mutes the soundtrack.
+ */
 function stopGame() {
     clearAllIntervals();
     document.getElementById("gameSoundtrack").pause();
@@ -247,7 +292,9 @@ function stopGame() {
     soundIcon.src = 'img/10_icons/mute.svg';
 }
 
-
+/**
+ * Clears all intervals set in the window.
+ */
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
