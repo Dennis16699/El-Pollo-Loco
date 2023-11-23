@@ -210,52 +210,23 @@ window.addEventListener('keyup', (event) => {
  * Binds touch events to control buttons for mobile devices.
  */
 function bindBtsPressEvents() {
-    let walkLeft = document.getElementById('walkLeft');
-    let walkRight = document.getElementById('walkRight');
-    let jump = document.getElementById('jump');
-    let throwBottle = document.getElementById('throwBottle');
+    bindTouchEvent('walkLeft', 'left');
+    bindTouchEvent('walkRight', 'right');
+    bindTouchEvent('jump', 'up');
+    bindTouchEvent('throwBottle', 'throw');
+}
 
-    walkLeft.addEventListener('touchstart', (e) => {
+function bindTouchEvent(elementId, key) {
+    let element = document.getElementById(elementId);
+
+    element.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        keyboard.left = true;
+        keyboard[key] = true;
     });
 
-    walkLeft.addEventListener('touchend', (e) => {
+    element.addEventListener('touchend', (e) => {
         e.preventDefault();
-        keyboard.left = false;
-        keyboard.lastKeyPress = new Date().getTime();
-    });
-
-    walkRight.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.right = true;
-    });
-
-    walkRight.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.right = false;
-        keyboard.lastKeyPress = new Date().getTime();
-    });
-
-    jump.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.up = true;
-    });
-
-    jump.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.up = false;
-        keyboard.lastKeyPress = new Date().getTime();
-    });
-
-    throwBottle.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.throw = true;
-    });
-
-    throwBottle.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.throw = false;
+        keyboard[key] = false;
         keyboard.lastKeyPress = new Date().getTime();
     });
 }

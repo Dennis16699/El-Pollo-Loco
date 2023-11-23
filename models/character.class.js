@@ -1,6 +1,6 @@
 class Character extends MovableObject {
-    height = 240;
-    y = 145;
+    height = 230;
+    y = 135;
     speed = 20;
     world;
     walkingSound = new Audio('audio/Walking.mp3');
@@ -11,7 +11,7 @@ class Character extends MovableObject {
     movemetActions;
 
     offset =  {
-        top: 100,
+        top: 10,
         left: 20,
         right: 20, 
         bottom: 10
